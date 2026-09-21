@@ -1,5 +1,7 @@
 # Digital Evidence Integrity — Backend
 
+### 🔴 Live app: [chain-guard-blue.vercel.app](https://chain-guard-blue.vercel.app/)
+
 ICSC 2026 Hackathon, Track H (Media, Information Integrity & Civic Trust).
 
 A chain-of-custody API that proves two things about a piece of digital evidence:
@@ -48,9 +50,16 @@ live "tamper a file, catch it" demo moment.
 **Custody trail (`GET /evidence/:id/custody`)**
 Full list of everyone who has touched a given piece of evidence, in order.
 
+**Metadata (`GET /evidence/:id/metadata`)**
+Whatever EXIF the file actually carries (camera make/model, capture timestamp,
+GPS, editing software), extracted once at intake, plus heuristic flags for
+suspicious absences (`NO_CAPTURE_DEVICE_INFO`, `EDITED_WITH_SOFTWARE`,
+`NO_GPS_DATA`, `NO_EXIF_DATA`). Observations, not a verdict on authenticity.
+
 **Report (`GET /evidence/:id/report`)**
 A plain-language summary, meant to be read by a judge or panel member with no
-technical background — no raw hashes in the headline text.
+technical background — no raw hashes in the headline text. Includes a
+`metadataSummary` translating the EXIF flags above into plain sentences.
 
 **Offline sync (`POST /custody/sync`)**
 Accepts a batch of custody entries that were recorded on a device with no
@@ -75,6 +84,7 @@ original on-device timestamp.
 | GET | `/evidence/:id` | Get one item + current hash |
 | POST | `/evidence/:id/verify` | Re-hash and compare — tamper check |
 | GET | `/evidence/:id/custody` | Full custody trail |
+| GET | `/evidence/:id/metadata` | Extracted EXIF metadata + heuristic flags |
 | GET | `/evidence/:id/report` | Plain-language report |
 | POST | `/custody/sync` | Sync offline-queued custody entries |
 
