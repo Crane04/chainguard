@@ -89,3 +89,16 @@ original on-device timestamp.
 | POST | `/custody/sync` | Sync offline-queued custody entries |
 
 Full request/response schemas are in Swagger at `/api-docs` once the server is running.
+
+## Testing
+
+```bash
+npm test
+```
+
+Unit tests only (Jest + ts-jest, no database or network required):
+- `services/hashing.ts` — digest correctness/determinism
+- `services/metadata.ts` — `extractMetadata` flag logic (`exifr` mocked) and `describeMetadataFlags`
+- `validators/*` — every validator middleware, valid and invalid cases
+
+Tests live in `tests/`, mirroring `src/`'s structure.
