@@ -62,3 +62,19 @@ export async function extractMetadata(buffer: Buffer): Promise<ExtractedMetadata
     flags
   };
 }
+
+const METADATA_FLAG_MESSAGES: Record<string, string> = {
+  NO_EXIF_DATA:
+    "This file carries no camera or origin metadata — it may have been downloaded, screenshotted, or stripped by another app before upload.",
+  NO_CAPTURE_DEVICE_INFO: "The file has some embedded metadata, but no camera or device information.",
+  EDITED_WITH_SOFTWARE: "This file's metadata shows it was opened or edited in image-editing software.",
+  NO_GPS_DATA: "No location data is attached to this file."
+};
+
+/**
+ * Translates metadata flags into plain-language sentences for the report route —
+ * observations, not a verdict on authenticity.
+ */
+export function describeMetadataFlags(flags: string[]): string[] {
+  return flags.map((flag) => METADATA_FLAG_MESSAGES[flag] ?? flag);
+}

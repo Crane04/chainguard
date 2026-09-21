@@ -4,6 +4,7 @@ import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./swagger";
 import { evidenceRouter } from "./routes/evidence";
 import { custodyRouter } from "./routes/custody";
+import { errorHandler } from "./middleware/errorHandler";
 
 export function createApp(): Express {
   const app = express();
@@ -19,6 +20,8 @@ export function createApp(): Express {
 
   app.use("/evidence", evidenceRouter);
   app.use("/custody", custodyRouter);
+
+  app.use(errorHandler);
 
   return app;
 }
